@@ -1,25 +1,34 @@
 {% if not file_idx %}
 	{% set file_idx = 0 %}
 {% endif %}
+
+{% block head %}
+
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/spectrogram-player/style.css') }}" />
+
+{% endblock %}
+
 <h5 class="my-2 text-white w-100 text-center" >
 	Player
 </h5>
-<audio controls>
-	<source src="{{'/sounds/'+files[file_idx]['file']}}">
-	Your browser does not support the audio element.
-</audio> 
-<div class="fileinfo mt-3">
-	<p>
-		<span id="filecounter"><b>File {{file_idx}}/{{files|length -1}}</b><br></span>
-	    <span id="filename">{{ files[file_idx]['file'] }}</span>
-	</p>
-	<p>
-		{% if files[file_idx]['class'] == "" %}
-			Class:  --
-		{% else %}
-			Class:  {{files[file_idx]['class']}}
-		{% endif %}
-		
-	</p>	
+<div class="spectrogram-player">
+	<script type="text/javascript">spectrogram_player.init();</script>
+	<img src="{{ '/graphs/'+files[file_idx]['file'][:-4]+'.png' }}" />
+	<audio controls controlsList="nodownload">
+		<source src="{{ '/sounds/'+files[file_idx]['file'] }}">
+		Your browser does not support the audio element.
+	</audio>
+	<div class="fileinfor mt-3">
+		<p>
+			<span id="filecounter"><b>File {{ file_idx }}/{{ files|length-1 }}</b><br></span>
+			<span id="filename">{{ files[file_idx]['file'] }}</span>
+		</p>
+		<p>
+			{% if files[file_idx]['class'] == "" %}
+				Class: --
+			{% else %}
+				Class: {{ files[file_idx]['class'] }}
+			{% endif %}
+		</p>
+	</div>
 </div>
-
