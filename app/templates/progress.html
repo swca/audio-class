@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %} Loading Spectrograms... {% endblock %}
+
+{% block content %}
+
+	<div class="jumbotron">
+		<div class="container">
+			<h2> Generating Spectrogram for </h2>
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="{{ index+1 }}" aria-valuemax="{{ num_files }}" style="width:0%"></div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		var interval = setInterval(update_progress, 1000);
+		console.log("Running progress bar");
+		function update_progress() {
+			console.log("Starting progress");
+			$.get("/progress").done(function(n) {
+				n = {{ index }} / {{ num_files }};
+				$(".progress-bar").animate({"width": n + "%"}).attr("aria-valuenow", n);
+				if ({{ index }} > {{ num_files }}) {
+					clearInterval(interval);
+					window.location.href = "{{ url_for("annotate") }}";
+				}
+				$.ajax({
+					type: "POST",
+					url: "{{ url_for('spectrogram') }}",
+					data: {
+						'path': {{ files[index] }}
+					}
+				});
+				{% set index = index + 1 %}
+			}).fail(function() {
+				clearInterval(interval);
+				console.log("Problem generating progress bar...");
+			})
+		}
+	</script>
+
+{% endblock %}

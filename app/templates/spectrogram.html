@@ -1,0 +1,9 @@
+{% if not file_idx %}
+	{% set file_idx = 0 %}
+{% endif %}
+<h5 class="my-2 text-blue w-100 text-center" style="font-size: 40px">
+	Spectrogram
+</h5>
+<div class="container-fluid">
+	<img src="{{ /graphs/'+files[file_idx]['file'] }}">
+</div>

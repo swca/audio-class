@@ -41,6 +41,7 @@
 	 				<h5>First, set up the classes we'll be annotating for:</h5>
 	 			</div>
 	 		</div>
+			
 			<div class="row">
 				<div class="col-8">
 					<!-- Add class -->
@@ -73,7 +74,8 @@
 					<div id='class-list' >{% include 'class_table.html' %}</div>
 					
 				</div>
-			</div>	
+			</div>
+	
 		</div>
 
 		<!-- Load session -->
@@ -126,17 +128,18 @@
  		// Setup alert closing btn
  		$('#alert > button').on("click", function(e){
     		$('#alert').removeClass('show');
- 		})
+ 		});
 
  		// Return Btn
  		$(".return-btn").on("click", function(e){
  			$("#startup-buttons").show();
  		});
+
  		$("#return-btn-loadfile > .return-btn").on("click", function(e) {
  			$("#session-info-container").html("");
  			$("#upload-btn-container").show();
  			$("#return-btn-loadfile").addClass("d-none");
- 		})
+ 		});
 
  		// Start/Load session btns
  		$("#new-session-btn, #load-session-btn").on("click", function(e){
@@ -204,7 +207,7 @@
 					$("#class-list").html(response);
 		        }
 		    });
- 		})
+ 		});
 
  		$(".setup-classes-form").on("submit", function(e) {
 		    e.preventDefault();
@@ -239,7 +242,7 @@
 			    error: function(response){
 			    	// Duplicate class tooltip
 			    	if (response.responseText == 'duplicate-class') {
-			    		$('#add-classes-btn').tooltip('show')
+			    		$('#add-classes-btn').tooltip('show');
 		        		setTimeout(function () {
 					        $('#add-classes-btn').tooltip('hide');
 					      }, 2500);
