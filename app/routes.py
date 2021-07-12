@@ -72,7 +72,7 @@ def spectrogram(path):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
-def index(): 
+def index():
     audio_dir = os.path.join(os.path.dirname(app.root_path),'audio_data')
     image_dir = os.path.join(os.path.dirname(app.root_path), 'image_data')
     if not os.path.isdir(audio_dir):
@@ -96,11 +96,7 @@ def annotate():
     elif len(session['annot']['classes']) < 2 :
         return ("not-enough-classes", 400)
 
-    else:
-        for i, file in enumerate(session['annot', 'files']):
-            spectrogram(file['file'])
-
-        return (render_template('annotate.html', annot=session['annot'], file_idx=session['file_idx']), 200)
+    return (render_template('annotate.html', annot=session['annot'], file_idx=session['file_idx']), 200)
 
 @app.route('/upload_annotation', methods=["GET", "POST"])
 def upload_annotation():
