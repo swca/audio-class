@@ -34,7 +34,7 @@ def spectrogram(path):
     temp = os.path.join(session['image_dir'], "temp"+path[:-4]+".png")
 
     print("Generating spectrogram...")
-    full_path = os.join(session['audio_dir'], path)
+    full_path = os.path.join(session['audio_dir'], path)
     waveform, sampling_rate = librosa.load(full_path)
     s = librosa.feature.melspectrogram(waveform, sr=sampling_rate, power=1)
     log_S = librosa.amplitude_to_db(s, ref=np.max)
@@ -67,7 +67,7 @@ def spectrogram(path):
 
         print(f"Saved to {out}")
 
-        os.remove(tmep)
+        os.remove(temp)
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/home', methods=['GET', 'POST'])
@@ -95,6 +95,10 @@ def annotate():
         return ("no-files", 400)
     elif len(session['annot']['classes']) < 2 :
         return ("not-enough-classes", 400)
+
+    for file in session["annot"]["files"]:
+        print(os.path.join(session['audio_dir'], file['file']))
+        spectrogram(file['file'])
 
     return (render_template('annotate.html', annot=session['annot'], file_idx=session['file_idx']), 200)
 
